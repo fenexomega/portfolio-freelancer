@@ -7,8 +7,8 @@ var myDocument    = undefined
 
 function applyPersonalInfo(document)
 {
-  document.findFirstTag('title').innerHTML  = personalInfo['title']
-  document.getElementById('brand').innerHTML   = personalInfo['name']
+  document.findFirstTag('title').innerHTML    = personalInfo['title']
+  document.getElementById('brand').innerHTML  = personalInfo['name']
   return document
 }
 
