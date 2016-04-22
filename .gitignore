@@ -26,3 +26,7 @@
 *.exe
 *.out
 *.app
+
+# output
+test.html
+src/node_modules/
