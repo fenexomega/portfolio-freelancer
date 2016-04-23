@@ -5,33 +5,99 @@ var personalInfo  = require('./info.json')
 var sources       = require('./elements.js')
 var myDocument    = undefined
 
+function findLastTag(element,tagName)
+{
+  var size = element.getElementsByTagName(tagName).length;
+  return element.getElementsByTagName(tagName)[size - 1];
+}
+
 function applyPersonalInfo(document)
 {
-  document.findFirstTag('title').innerHTML    = personalInfo['title']
-  document.getElementById('brand').innerHTML  = personalInfo['name']
+  function findTagByIdAndOverwriteHTML(name)
+  {
+    document.getElementById(name).innerHTML = personalInfo[name]
+
+  }
+
+  document.findFirstTag('title').innerHTML  = personalInfo['title']
+  findTagByIdAndOverwriteHTML('name')
+  findTagByIdAndOverwriteHTML('brand')
+  findTagByIdAndOverwriteHTML('skills')
   return document
 }
+
+function applyAbout(document)
+{
+  document.findFirstTag('body').innerHTML += sources.about;
+  document.getElementById('about-text').innerHTML += personalInfo.about;
+  return document;
+}
+
+
+function applyProjects(document)
+{
+  function getPortfolioRow()
+  {
+    return document.getElementById('portfolio-row');
+  }
+
+  function setPortfolioModalByProject(project,id_nbr)
+  {
+    document.findFirstTag('body').innerHTML += sources.portfolioModal;
+    findLastTag(document,'h2').innerHTML = project.title;
+    findLastTag(document,'p').innerHTML  = project.description;
+    findLastTag(document,'img').src      = project.image;
+    document.getElementById('portfolioModal').id += id_nbr;
+  }
+
+  var projects = projetosJson.projectsArray;
+  var i = 0;
+  for (var p of projects) {
+    getPortfolioRow().innerHTML += sources.portfolioCell;
+
+    getPortfolioRow().getElementsByTagName('img')[i].src = p.image;
+    getPortfolioRow().getElementsByTagName('a')[i].href = "#portfolioModal" + i;
+
+    ++i;
+  }
+
+  i = 0;
+  for (var p of projects) {
+      setPortfolioModalByProject(p,i++);
+  }
+
+  return document;
+}
+
 
 function compileAndWriteDocument(document,fileName)
 {
   document.findFirstTag = function(tag)
   {
-      return this.getElementsByTagName(tag)[0]
+    return this.getElementsByTagName(tag)[0];
   }
   // Put tags into header
   document.findFirstTag('head').innerHTML = sources.head;
   // Put tags into body
-  document.findFirstTag('body').innerHTML = sources.header + sources.scripts;
+  document.findFirstTag('body')
+  .innerHTML = sources.navigation + sources.header
+    + sources.portfolioGrid;
 
   //replace tags with infos on json
-  document = applyPersonalInfo(document)
+  document = applyPersonalInfo(document);
+  document = applyProjects(document);
+  document = applyAbout(document);
+
+  document.findFirstTag('body')
+  .innerHTML += sources.scripts;
+
 
   fs.writeFileSync(fileName,document.findFirstTag('html').outerHTML,'utf8');
 }
 
 jsdom.env('./html1.html',["../js/jquery.js"],
-  function(err,window){
+function(err,window){
 
-    compileAndWriteDocument(window.document,"../test.html");
+  compileAndWriteDocument(window.document,"../test.html");
 
-  })
+})

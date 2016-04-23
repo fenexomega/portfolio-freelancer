@@ -3,7 +3,11 @@
      {
       "title": "Título do projeto",
       "description": "Descrição do Projeto. Foi um projeto muito massa, mas infelizmente teve de acabar :(",
-      "image":"img/portfolio/cabin.png"
+      "image":"img/portfolio/cabin.png",
+      "client":"Client name",
+      "client-url":"",
+      "date":"April 2014",
+      "service":"Web Development"
     }
   ]
 }
