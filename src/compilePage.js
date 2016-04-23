@@ -5,6 +5,9 @@ var personalInfo  = require('./info.json')
 var sources       = require('./elements.js')
 var myDocument    = undefined
 
+// PARAMETERS
+var documentOutput = "../index.html"
+
 function findLastTag(element,tagName)
 {
   var size = element.getElementsByTagName(tagName).length;
@@ -30,6 +33,22 @@ function applyAbout(document)
 {
   document.findFirstTag('body').innerHTML += sources.about;
   document.getElementById('about-text').innerHTML += personalInfo.about;
+  return document;
+}
+
+function applyContact(document)
+{
+  document.findFirstTag('body').innerHTML += sources.footer;
+  var contacts = personalInfo.contactsArray;
+  var i = 0;
+  for (c of contacts) {
+    var li = document.createElement('li')
+    li.innerHTML = sources.contactCell;
+    li.getElementsByTagName('i')[0].className += ' fa-' + c.type;
+    li.getElementsByTagName('a')[0].href = c.address;
+    document.getElementById('contact-table').appendChild(li);
+
+  }
   return document;
 }
 
@@ -87,17 +106,17 @@ function compileAndWriteDocument(document,fileName)
   document = applyPersonalInfo(document);
   document = applyProjects(document);
   document = applyAbout(document);
-
+  document = applyContact(document);
   document.findFirstTag('body')
   .innerHTML += sources.scripts;
 
 
-  fs.writeFileSync(fileName,document.findFirstTag('html').outerHTML,'utf8');
+  fs.writeFileSync(fileName,'<!DOCTYPE html>\n' + document.findFirstTag('html').outerHTML,'utf8');
 }
 
 jsdom.env('./html1.html',["../js/jquery.js"],
 function(err,window){
 
-  compileAndWriteDocument(window.document,"../test.html");
+  compileAndWriteDocument(window.document,documentOutput);
 
 })

@@ -3,5 +3,15 @@
   "brand": "Brand Name",
   "title": "default title",
   "skills": "Basic - Skills - Here",
-  "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque volutpat neque bibendum nisl dictum ornare. Aenean accumsan mattis libero at dapibus. Fusce blandit mi felis, feugiat porta diam commodo nec. Sed malesuada leo vitae feugiat egestas. Sed in tellus in nulla gravida gravida. Integer viverra sit amet erat a tincidunt. Mauris blandit elit neque, at dictum libero lacinia sit amet. Pellentesque tincidunt finibus est molestie commodo."
+  "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque volutpat neque bibendum nisl dictum ornare. Aenean accumsan mattis libero at dapibus. Fusce blandit mi felis, feugiat porta diam commodo nec. Sed malesuada leo vitae feugiat egestas. Sed in tellus in nulla gravida gravida. Integer viverra sit amet erat a tincidunt. Mauris blandit elit neque, at dictum libero lacinia sit amet. Pellentesque tincidunt finibus est molestie commodo.",
+  "contactsArray": [
+    {
+      "type": "github",
+      "address": ""
+    },
+    {
+      "type":"mail-forward",
+      "address": "mailto:youremail@email.com"
+    }
+  ]
 }
